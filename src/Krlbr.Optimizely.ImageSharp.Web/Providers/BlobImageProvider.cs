@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 using EPiServer.Core;
 using EPiServer.Web;
@@ -19,7 +17,6 @@ namespace Krlbr.Optimizely.ImageSharp.Web.Providers;
 [SuppressMessage("ReSharper", "ReplaceAutoPropertyWithComputedProperty")]
 public class BlobImageProvider : IImageProvider
 {
-
     /// <summary>
     /// A match function used by the resolver to identify itself as the correct resolver to use.
     /// </summary>
@@ -61,21 +58,22 @@ public class BlobImageProvider : IImageProvider
         {
             return Task.FromResult<IImageResolver?>(new BlobImageResolver(media));
         }
+
         return Task.FromResult<IImageResolver?>(null);
     }
 
     private static bool IsMatch(HttpContext context)
     {
-        var matchMediaUrlSegments = MediaUrlSegments
-            .Any(p => context.Request.Path.StartsWithSegments(p, StringComparison.OrdinalIgnoreCase));
+        var matchMediaUrlSegments =
+            context.Request.Path.StartsWithSegments(ContentAssetPath, StringComparison.OrdinalIgnoreCase)
+            || context.Request.Path.StartsWithSegments(GlobalAssetPath, StringComparison.OrdinalIgnoreCase)
+            || context.Request.Path.StartsWithSegments(SiteAssetPath, StringComparison.OrdinalIgnoreCase)
+            || context.Request.Path.StartsWithSegments(SysSiteAssetsPath, StringComparison.OrdinalIgnoreCase);
         return matchMediaUrlSegments;
     }
 
-    private static readonly HashSet<string> MediaUrlSegments = new(StringComparer.OrdinalIgnoreCase)
-    {
-        $"/{RoutingConstants.ContentAssetSegment}",
-        $"/{RoutingConstants.SiteAssetSegment}",
-        $"/{RoutingConstants.GlobalAssetSegment}",
-        $"/{SiteDefinition.SiteAssetsName}",
-    };
+    private static readonly PathString ContentAssetPath = $"/{RoutingConstants.ContentAssetSegment}";
+    private static readonly PathString GlobalAssetPath = $"/{RoutingConstants.GlobalAssetSegment}";
+    private static readonly PathString SiteAssetPath = $"/{RoutingConstants.SiteAssetSegment}";
+    private static readonly PathString SysSiteAssetsPath = $"/{SiteDefinition.SiteAssetsName}";
 }
