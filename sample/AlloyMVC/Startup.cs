@@ -56,6 +56,7 @@ public class Startup
                 {
                     options.ConnectionString = azureBlobsConnectionString!;
                     options.ContainerName = "mysitemedia";
+                    options.CacheFolder = "_is_cache";
                 })
                 .ClearProviders()
                 .AddProvider<BlobImageProvider>()
