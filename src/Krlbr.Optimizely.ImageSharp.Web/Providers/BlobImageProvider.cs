@@ -1,15 +1,14 @@
-﻿using Krlbr.Optimizely.ImageSharp.Web.Resolvers;
-using EPiServer;
+﻿using System;
+using System.Threading.Tasks;
 using EPiServer.Core;
 using EPiServer.Web.Routing;
+using Krlbr.Optimizely.ImageSharp.Web.Resolvers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using SixLabors.ImageSharp.Web;
 using SixLabors.ImageSharp.Web.Providers;
 using SixLabors.ImageSharp.Web.Resolvers;
-using System;
-using System.Threading.Tasks;
 
 namespace Krlbr.Optimizely.ImageSharp.Web.Providers;
 
@@ -19,7 +18,7 @@ public class BlobImageProvider : IImageProvider
     /// <summary>
     /// A match function used by the resolver to identify itself as the correct resolver to use.
     /// </summary>
-    private Func<HttpContext, bool> _match;
+    private Func<HttpContext, bool>? _match;
 
     /// <summary>
     /// Contains various format helper methods based on the current configuration.
@@ -50,29 +49,33 @@ public class BlobImageProvider : IImageProvider
     public bool IsValidRequest(HttpContext context) => _formatUtilities.TryGetExtensionFromUri(context.Request.GetDisplayUrl(), out _);
 
     /// <inheritdoc/>
-    public Task<IImageResolver> GetAsync(HttpContext context)
+    public Task<IImageResolver?> GetAsync(HttpContext context)
     {
-        string url = context.Request.Path.Value;
+        var url = context.Request.Path.Value;
 
-        MediaData media = UrlResolver.Current.Route(new UrlBuilder(url)) as MediaData;
-
-        if (media != null && media.BinaryData != null)
+        if (UrlResolver.Current.Route(new(url)) is MediaData { BinaryData: not null } media)
         {
-            return Task.FromResult<IImageResolver>(new BlobImageResolver(media));
+            return Task.FromResult<IImageResolver?>(new BlobImageResolver(media));
         }
-        return Task.FromResult<IImageResolver>(null);
+        return Task.FromResult<IImageResolver?>(null);
     }
 
     private bool IsMatch(HttpContext context)
     {
         if (context.Request.Path.StartsWithSegments("/contentassets", StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
 
         if (context.Request.Path.StartsWithSegments("/globalassets", StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
 
         if (context.Request.Path.StartsWithSegments("/siteassets", StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
 
         return false;
     }

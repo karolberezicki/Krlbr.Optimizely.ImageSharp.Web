@@ -1,9 +1,7 @@
 ﻿using Krlbr.Optimizely.ImageSharp.Web.Caching;
 using Krlbr.Optimizely.ImageSharp.Web.Providers;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Providers;
 

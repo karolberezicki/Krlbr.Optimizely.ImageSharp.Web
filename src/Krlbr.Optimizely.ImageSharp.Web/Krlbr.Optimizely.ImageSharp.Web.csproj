@@ -17,6 +17,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
 		<PackageReleaseNotes>From version 3.0 this package is targeting .NET 8</PackageReleaseNotes>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\..\README.md">

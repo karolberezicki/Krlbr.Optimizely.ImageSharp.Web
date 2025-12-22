@@ -14,11 +14,12 @@ public static class UrlBuilderExtensions
     /// <returns></returns>
     public static UrlBuilder BackgroundColor(this UrlBuilder target, string color)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
         if (!target.IsEmpty)
+        {
             target.QueryCollection.Add("bgcolor", color.ToLowerInvariant());
+        }
 
         return target;
     }
@@ -27,23 +28,28 @@ public static class UrlBuilderExtensions
     /// Changes the background color of the current image. This functionality is useful for adding a background when resizing image formats with an alpha channel.
     /// </summary>
     /// <param name="target"></param>
-    /// <param name="color">Decimal red, green, lue and alpha values</param>
+    /// <param name="r">Red value 0-255</param>
+    /// <param name="g">Green value 0-255</param>
+    /// <param name="b">Blue value 0-255</param>
+    /// <param name="a">Alpha value 0-255</param>
     /// <returns></returns>
 
     public static UrlBuilder BackgroundColor(this UrlBuilder target, int r, int g, int b, int a)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
         if (r < 0 || g < 0 || b < 0 || a < 0 || r > 255 || g > 255 || b > 255 | a > 55)
+        {
             throw new ArgumentOutOfRangeException(nameof(target));
+        }
 
         if (!target.IsEmpty)
+        {
             target.QueryCollection.Add("bgcolor", string.Join(",", r.ToString(), g.ToString(), b.ToString(), a.ToString()));
+        }
 
         return target;
     }
-
 
 
     /// <summary>
@@ -54,28 +60,30 @@ public static class UrlBuilderExtensions
     /// <returns></returns>
     public static UrlBuilder Format(this UrlBuilder target, ImageFormat format)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
         if (!target.IsEmpty)
+        {
             target.QueryCollection.Add("format", format.ToString().ToLowerInvariant());
+        }
 
         return target;
     }
 
     /// <summary>
-    /// Alters the output quality of the current image. This method will only effect the output quality of images that allow lossy processing.
+    /// Alters the output quality of the current image. This method will only affect the output quality of images that allow lossy processing.
     /// </summary>
     /// <param name="target"></param>
     /// <param name="quality"></param>
     /// <returns></returns>
     public static UrlBuilder Quality(this UrlBuilder target, int quality)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
-        if (quality <= 0 || quality > 100)
+        if (quality is <= 0 or > 100)
+        {
             throw new ArgumentOutOfRangeException(nameof(target));
+        }
 
         if (!target.IsEmpty)
         {
@@ -93,33 +101,51 @@ public static class UrlBuilderExtensions
     /// <param name="width">New image width</param>
     /// <param name="height">New image height</param>
     /// <param name="mode">The resizing method.</param>
+    /// <param name="sampler">The resampling algorithm to use.</param>
     /// <param name="center">The center position to anchor the image center point to.</param>
     /// <param name="anchor">The anchor position</param>
     /// <param name="compand">Whether to compress and expand individual pixel colors values to/from a linear color space when processing.</param>
     /// <returns></returns>
-    public static UrlBuilder Resize(this UrlBuilder target, int? width, int? height, ResizeMode mode = ResizeMode.Pad, string sampler = null, string center = null, AnchorPositionMode anchor = AnchorPositionMode.Center, bool compand = false)
+    public static UrlBuilder Resize(this UrlBuilder target, int? width, int? height, ResizeMode mode = ResizeMode.Pad, string? sampler = null, string? center = null, AnchorPositionMode anchor = AnchorPositionMode.Center, bool compand = false)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
-        if (!target.IsEmpty)
+        if (target.IsEmpty)
         {
-            if (width != null)
-                target.QueryCollection.Add("width", width.ToString());
-            if (height != null)
-                target.QueryCollection.Add("height", height.ToString());
-            if (mode != ResizeMode.Pad)
-                target.QueryCollection.Add("rmode", mode.ToString().ToLower());
+            return target;
+        }
 
-            //if (sampler != null)
-            target.QueryCollection.Add("rsampler", sampler ?? "bicubic");
+        if (width != null)
+        {
+            target.QueryCollection.Add("width", width.ToString());
+        }
 
-            if (center != null)
-                target.QueryCollection.Add("rxy", center);
-            if (anchor != AnchorPositionMode.Center)
-                target.QueryCollection.Add("ranchor", anchor.ToString().ToLower());
-            if (!compand)
-                target.QueryCollection.Add("compand", "true");
+        if (height != null)
+        {
+            target.QueryCollection.Add("height", height.ToString());
+        }
+
+        if (mode != ResizeMode.Pad)
+        {
+            target.QueryCollection.Add("rmode", mode.ToString().ToLower());
+        }
+
+        //if (sampler != null)
+        target.QueryCollection.Add("rsampler", sampler ?? "bicubic");
+
+        if (center != null)
+        {
+            target.QueryCollection.Add("rxy", center);
+        }
+
+        if (anchor != AnchorPositionMode.Center)
+        {
+            target.QueryCollection.Add("ranchor", anchor.ToString().ToLower());
+        }
+
+        if (!compand)
+        {
+            target.QueryCollection.Add("compand", "true");
         }
         return target;
     }
@@ -132,11 +158,12 @@ public static class UrlBuilderExtensions
     /// <returns></returns>
     public static UrlBuilder Width(this UrlBuilder target, int width)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
         if (!target.IsEmpty)
+        {
             target.QueryCollection.Add("width", width.ToString());
+        }
 
         return target;
     }
@@ -149,11 +176,12 @@ public static class UrlBuilderExtensions
     /// <returns></returns>
     public static UrlBuilder Height(this UrlBuilder target, int height)
     {
-        if (target == null)
-            throw new ArgumentNullException(nameof(target));
+        ArgumentNullException.ThrowIfNull(target);
 
         if (!target.IsEmpty)
+        {
             target.QueryCollection.Add("height", height.ToString());
+        }
 
         return target;
     }

@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using EPiServer.Core;
 using Microsoft.Extensions.FileProviders;
-
 using SixLabors.ImageSharp.Web;
 using SixLabors.ImageSharp.Web.Resolvers;
 
@@ -11,7 +10,7 @@ namespace Krlbr.Optimizely.ImageSharp.Web.Resolvers;
 
 public class BlobImageResolver : IImageResolver
 {
-    private readonly MediaData media;
+    private readonly MediaData _media;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BlobImageResolver"/> class.
@@ -20,19 +19,19 @@ public class BlobImageResolver : IImageResolver
 
     public BlobImageResolver(MediaData media)
     {
-        this.media = media;
+        _media = media;
     }
 
     /// <inheritdoc/>
     public async Task<ImageMetadata> GetMetaDataAsync()
     {
-        DateTimeOffset lastModified = media.Saved;
-        IFileInfo fileInfo = await media.BinaryData.AsFileInfoAsync(lastModified);
+        DateTimeOffset lastModified = _media.Saved;
+        var fileInfo = await _media.BinaryData.AsFileInfoAsync(lastModified);
 
         return new(lastModified.UtcDateTime, fileInfo.Length);
     }
 
     /// <inheritdoc/>
-    public Task<Stream> OpenReadAsync() => Task.FromResult(media.BinaryData.OpenRead());
+    public Task<Stream> OpenReadAsync() => Task.FromResult(_media.BinaryData.OpenRead());
 
 }
