@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using EPiServer.Core;
+using EPiServer.Web;
 using EPiServer.Web.Routing;
 using Krlbr.Optimizely.ImageSharp.Web.Resolvers;
 using Microsoft.AspNetCore.Http;
@@ -63,21 +66,16 @@ public class BlobImageProvider : IImageProvider
 
     private bool IsMatch(HttpContext context)
     {
-        if (context.Request.Path.StartsWithSegments("/contentassets", StringComparison.OrdinalIgnoreCase))
-        {
-            return true;
-        }
-
-        if (context.Request.Path.StartsWithSegments("/globalassets", StringComparison.OrdinalIgnoreCase))
-        {
-            return true;
-        }
-
-        if (context.Request.Path.StartsWithSegments("/siteassets", StringComparison.OrdinalIgnoreCase))
-        {
-            return true;
-        }
-
-        return false;
+        var matchMediaUrlSegments = MediaUrlSegments
+            .Any(p => context.Request.Path.StartsWithSegments(p, StringComparison.OrdinalIgnoreCase));
+        return matchMediaUrlSegments;
     }
+
+    private static readonly HashSet<string> MediaUrlSegments = new(StringComparer.OrdinalIgnoreCase)
+    {
+        $"/{RoutingConstants.ContentAssetSegment}",
+        $"/{RoutingConstants.SiteAssetSegment}",
+        $"/{RoutingConstants.GlobalAssetSegment}",
+        $"/{SiteDefinition.SiteAssetsName}",
+    };
 }
