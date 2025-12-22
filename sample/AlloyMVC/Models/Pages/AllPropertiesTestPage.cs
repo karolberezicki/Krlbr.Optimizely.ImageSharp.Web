@@ -1,3 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using EPiServer.Cms.Shell.UI.ObjectEditing.EditorDescriptors;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
@@ -8,11 +13,6 @@ using EPiServer.ServiceLocation;
 using EPiServer.Shell.ObjectEditing;
 using EPiServer.SpecializedProperties;
 using EPiServer.Web;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace AlloyMVC.Models.Pages;
 
@@ -234,9 +234,9 @@ public class TestSelectionQuery : ISelectionQuery
     public TestSelectionQuery()
     {
         _items = new[] {
-            new SelectItem() { Text = string.Empty, Value = string.Empty },
-            new SelectItem() { Text = "Alternative1", Value = "1" },
-            new SelectItem() { Text = "Alternative 2", Value = "2" } };
+            new SelectItem { Text = string.Empty, Value = string.Empty },
+            new SelectItem { Text = "Alternative1", Value = "1" },
+            new SelectItem { Text = "Alternative 2", Value = "2" } };
     }
 
     // Will be called when the editor types something in the selection editor.

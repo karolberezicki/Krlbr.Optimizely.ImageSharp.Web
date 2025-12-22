@@ -1,9 +1,9 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Filters;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyMVC.Models.Blocks;
 

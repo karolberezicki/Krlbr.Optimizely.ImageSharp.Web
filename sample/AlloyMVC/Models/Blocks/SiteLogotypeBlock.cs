@@ -1,9 +1,9 @@
+using System.ComponentModel.DataAnnotations;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell.ObjectEditing;
 using EPiServer.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyMVC.Models.Blocks;
 
@@ -29,7 +29,7 @@ public class SiteLogotypeBlock : SiteBlockData
             var url = this.GetPropertyValue(b => b.Url);
 
             return url == null || url.IsEmpty()
-                ? new Url("/gfx/logotype.png")
+                ? new("/gfx/logotype.png")
                 : url;
         }
         set => this.SetPropertyValue(b => b.Url, value);

@@ -1,3 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using AlloyMVC.Business;
 using EPiServer;
 using EPiServer.Core;
@@ -7,13 +14,6 @@ using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace AlloyMVC.Helpers;
 
@@ -43,7 +43,7 @@ public static class HtmlHelpers
         var currentContentLink = helper.ViewContext.HttpContext.GetContentLink();
         var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
 
-        IEnumerable<PageData> filter(IEnumerable<PageData> pages)
+        IEnumerable<PageData> Filter(IEnumerable<PageData> pages)
             => pages.FilterForDisplay(requirePageTemplate, requireVisibleInMenu);
 
         var pagePath = contentLoader.GetAncestors(currentContentLink)
@@ -54,12 +54,12 @@ public static class HtmlHelpers
 
         var menuItems = contentLoader.GetChildren<PageData>(rootLink)
             .FilterForDisplay(requirePageTemplate, requireVisibleInMenu)
-            .Select(x => CreateMenuItem(x, currentContentLink, pagePath, contentLoader, filter))
+            .Select(x => CreateMenuItem(x, currentContentLink, pagePath, contentLoader, Filter))
             .ToList();
 
         if (includeRoot)
         {
-            menuItems.Insert(0, CreateMenuItem(contentLoader.Get<PageData>(rootLink), currentContentLink, pagePath, contentLoader, filter));
+            menuItems.Insert(0, CreateMenuItem(contentLoader.Get<PageData>(rootLink), currentContentLink, pagePath, contentLoader, Filter));
         }
 
         var buffer = new StringBuilder();
@@ -79,7 +79,7 @@ public static class HtmlHelpers
             Selected = page.ContentLink.CompareToIgnoreWorkID(currentContentLink) ||
                        pagePath.Contains(page.ContentLink),
 
-            HasChildren = new Lazy<bool>(() => filter(contentLoader.GetChildren<PageData>(page.ContentLink)).Any())
+            HasChildren = new(() => filter(contentLoader.GetChildren<PageData>(page.ContentLink)).Any())
         };
 
         return menuItem;
@@ -87,7 +87,7 @@ public static class HtmlHelpers
 
     private static Func<MenuItem, HelperResult> GetDefaultItemTemplate(IHtmlHelper helper)
     {
-        return x => new HelperResult(writer =>
+        return x => new(writer =>
         {
             helper.PageLink(x.Page).WriteTo(writer, HtmlEncoder.Default);
             return Task.CompletedTask;
@@ -132,7 +132,7 @@ public static class HtmlHelpers
 
             helper.ViewContext.Writer.Write(linkTag.RenderStartTag());
         }
-        return new ConditionalLink(helper.ViewContext, shouldWriteLink);
+        return new(helper.ViewContext, shouldWriteLink);
     }
 
     /// <summary>

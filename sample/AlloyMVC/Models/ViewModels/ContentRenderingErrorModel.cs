@@ -1,6 +1,6 @@
+using System;
 using EPiServer;
 using EPiServer.Core;
-using System;
 
 namespace AlloyMVC.Models.ViewModels;
 

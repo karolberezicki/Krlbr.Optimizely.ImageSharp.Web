@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using AlloyMVC.Models.Pages;
 using EPiServer;
 using EPiServer.Core;
@@ -5,10 +9,6 @@ using EPiServer.Filters;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell.Configuration;
 using EPiServer.Web;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 
 namespace AlloyMVC.Business;
 
@@ -69,7 +69,7 @@ public class ContentLocator
     {
         var criteria = new PropertyCriteriaCollection
         {
-            new PropertyCriteria
+            new()
             {
                 Name = "PageTypeID",
                 Type = PropertyDataType.PageType,
@@ -85,7 +85,7 @@ public class ContentLocator
 
             if (contentProvider.HasCapability(ContentProviderCapabilities.Search))
             {
-                criteria.Add(new PropertyCriteria
+                criteria.Add(new()
                 {
                     Name = "EPI:MultipleSearch",
                     Value = contentProvider.ProviderKey

@@ -1,3 +1,4 @@
+using System.Linq;
 using AlloyMVC.Business;
 using AlloyMVC.Models.Pages;
 using AlloyMVC.Models.ViewModels;
@@ -9,7 +10,6 @@ using EPiServer.Framework.Web.Mvc;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace AlloyMVC.Controllers;
 
@@ -54,7 +54,7 @@ public class PreviewController : ActionControllerBase, IRenderTemplate<BlockData
             {
                 var contentArea = new ContentArea();
 
-                contentArea.Items.Add(new ContentAreaItem
+                contentArea.Items.Add(new()
                 {
                     ContentLink = currentContent.ContentLink
                 });

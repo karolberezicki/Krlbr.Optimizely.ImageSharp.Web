@@ -1,6 +1,6 @@
+using System;
 using EPiServer.DataAbstraction;
 using EPiServer.ServiceLocation;
-using System;
 
 namespace AlloyMVC.Business;
 

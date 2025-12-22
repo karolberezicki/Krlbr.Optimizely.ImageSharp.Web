@@ -1,8 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using AlloyMVC.Models.Blocks;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyMVC.Models.Pages;
 

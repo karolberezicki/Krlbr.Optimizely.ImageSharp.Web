@@ -1,4 +1,3 @@
-@using Krlbr.Optimizely.ImageSharp.Web
 @using Krlbr.Optimizely.ImageSharp.Web.Extensions
 @model PageViewModel<ProductPage>
 
@@ -20,7 +19,7 @@
         <img src="@Html.ProcessImage(Model.CurrentPage.PageImage).Width(125)"/>
     </div>
 
-    <div class="block colorBox @string.Join(" ", @Model.CurrentPage.GetThemeCssClassNames())">
+    <div class="block colorBox @string.Join(" ", Model.CurrentPage.GetThemeCssClassNames())">
         <h2 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h2>
         @Html.PropertyFor(x => x.CurrentPage.UniqueSellingPoints)
     </div>

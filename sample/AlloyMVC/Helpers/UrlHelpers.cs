@@ -24,7 +24,7 @@ public static class UrlHelpers
         var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
         var page = contentLoader.Get<PageData>(contentLink);
 
-        return PageLinkUrl(urlHelper, page);
+        return urlHelper.PageLinkUrl(page);
     }
 
     /// <summary>

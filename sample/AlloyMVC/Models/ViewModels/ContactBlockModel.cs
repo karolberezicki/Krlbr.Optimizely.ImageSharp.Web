@@ -1,8 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using AlloyMVC.Models.Pages;
 using EPiServer.Core;
 using EPiServer.Web;
 using Microsoft.AspNetCore.Html;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyMVC.Models.ViewModels;
 

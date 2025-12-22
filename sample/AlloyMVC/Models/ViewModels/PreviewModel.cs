@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using AlloyMVC.Models.Pages;
 using EPiServer.Core;
-using System.Collections.Generic;
 
 namespace AlloyMVC.Models.ViewModels;
 
@@ -10,7 +10,7 @@ public class PreviewModel : PageViewModel<SitePageData>
         : base(currentPage)
     {
         PreviewContent = previewContent;
-        Areas = new List<PreviewArea>();
+        Areas = new();
     }
 
     public IContent PreviewContent { get; set; }

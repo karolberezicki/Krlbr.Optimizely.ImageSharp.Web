@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AlloyMVC.Business;
 using AlloyMVC.Models.Blocks;
 using AlloyMVC.Models.ViewModels;
@@ -6,8 +8,6 @@ using EPiServer.Core;
 using EPiServer.Filters;
 using EPiServer.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AlloyMVC.Components;
 
@@ -35,7 +35,7 @@ public class PageListBlockViewComponent : BlockComponent<PageListBlock>
 
         var model = new PageListModel(currentContent)
         {
-            Pages = pages.Cast<PageData>()
+            Pages = pages
         };
 
         ViewData.GetEditHints<PageListModel, PageListBlock>()
@@ -85,7 +85,7 @@ public class PageListBlockViewComponent : BlockComponent<PageListBlock>
     private static IEnumerable<PageData> Sort(IEnumerable<PageData> pages, FilterSortOrder sortOrder)
     {
         var sortFilter = new FilterSort(sortOrder);
-        sortFilter.Sort(new PageDataCollection(pages.ToList()));
+        sortFilter.Sort(new(pages.ToList()));
         return pages;
     }
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using AlloyMVC.Models.Pages;
 using AlloyMVC.Models.ViewModels;
 using EPiServer;
@@ -11,7 +12,6 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System.Linq;
 
 namespace AlloyMVC.Business;
 
@@ -48,7 +48,7 @@ public class PageViewContextFactory
 
         var startPage = _contentLoader.Get<StartPage>(startPageContentLink);
 
-        return new LayoutModel
+        return new()
         {
             Logotype = startPage.SiteLogotype,
             LogotypeLinkUrl = new HtmlString(_urlResolver.GetUrl(SiteDefinition.Current.StartPage)),
@@ -57,8 +57,8 @@ public class PageViewContextFactory
             NewsPages = startPage.NewsPageLinks,
             CustomerZonePages = startPage.CustomerZonePageLinks,
             LoggedIn = httpContext.User.Identity.IsAuthenticated,
-            LoginUrl = new HtmlString(GetLoginUrl(currentContentLink)),
-            SearchActionUrl = new HtmlString(UrlResolver.Current.GetUrl(startPage.SearchPageLink)),
+            LoginUrl = new(GetLoginUrl(currentContentLink)),
+            SearchActionUrl = new(UrlResolver.Current.GetUrl(startPage.SearchPageLink)),
             IsInReadonlyMode = _databaseMode.DatabaseMode == DatabaseMode.ReadOnly
         };
     }
@@ -72,19 +72,19 @@ public class PageViewContextFactory
     {
         var currentContent = _contentLoader.Get<IContent>(contentLink);
 
-        static bool isSectionRoot(ContentReference contentReference) =>
+        static bool IsSectionRoot(ContentReference contentReference) =>
             ContentReference.IsNullOrEmpty(contentReference) ||
             contentReference.Equals(SiteDefinition.Current.StartPage) ||
             contentReference.Equals(SiteDefinition.Current.RootPage);
 
-        if (isSectionRoot(currentContent.ParentLink))
+        if (IsSectionRoot(currentContent.ParentLink))
         {
             return currentContent;
         }
 
         return _contentLoader.GetAncestors(contentLink)
             .OfType<PageData>()
-            .SkipWhile(x => !isSectionRoot(x.ParentLink))
+            .SkipWhile(x => !IsSectionRoot(x.ParentLink))
             .FirstOrDefault();
     }
 }

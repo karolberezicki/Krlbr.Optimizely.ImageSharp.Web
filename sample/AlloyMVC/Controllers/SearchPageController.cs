@@ -1,7 +1,7 @@
+using System.Linq;
 using AlloyMVC.Models.Pages;
 using AlloyMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace AlloyMVC.Controllers;
 
