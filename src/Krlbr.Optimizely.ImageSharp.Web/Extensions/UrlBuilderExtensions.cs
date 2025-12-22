@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using EPiServer;
 using SixLabors.ImageSharp.Processing;
 
 namespace Krlbr.Optimizely.ImageSharp.Web.Extensions;
 
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public static class UrlBuilderExtensions
 {
     /// <summary>

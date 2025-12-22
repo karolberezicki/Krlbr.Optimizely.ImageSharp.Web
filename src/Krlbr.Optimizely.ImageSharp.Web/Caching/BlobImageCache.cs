@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using EPiServer.Core;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp.Web;
 using SixLabors.ImageSharp.Web.Caching;
-using SixLabors.ImageSharp.Web.Middleware;
 using SixLabors.ImageSharp.Web.Resolvers;
 
 namespace Krlbr.Optimizely.ImageSharp.Web.Caching;
@@ -18,6 +18,7 @@ namespace Krlbr.Optimizely.ImageSharp.Web.Caching;
 /// <summary>
 /// Implements an Optimizely blob based cache.
 /// </summary>
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class BlobImageCache : IImageCache
 {
     /// <summary>
@@ -26,19 +27,9 @@ public class BlobImageCache : IImageCache
     private readonly string _cacheRootPath;
 
     /// <summary>
-    /// The length of the filename to use (minus the extension) when storing images in the image cache.
-    /// </summary>
-    private readonly int _cacheHashLength;
-
-    /// <summary>
     /// The cache configuration options.
     /// </summary>
     private readonly BlobImageCacheOptions _cacheOptions;
-
-    /// <summary>
-    /// The middleware configuration options.
-    /// </summary>
-    private readonly ImageSharpMiddlewareOptions _options;
 
     /// <summary>
     /// Contains various format helper methods based on the current configuration.
@@ -52,10 +43,13 @@ public class BlobImageCache : IImageCache
     /// </summary>
     /// <param name="cacheOptions">The cache configuration options.</param>
     /// <param name="environment">The hosting environment the application is running in.</param>
-    /// <param name="options">The middleware configuration options.</param>
     /// <param name="formatUtilities">Contains various format helper methods based on the current configuration.</param>
     /// <param name="httpContextAccessor">The HTTP context accessor.</param>
-    public BlobImageCache(IOptions<BlobImageCacheOptions>? cacheOptions, IWebHostEnvironment environment, IOptions<ImageSharpMiddlewareOptions> options, FormatUtilities formatUtilities, IHttpContextAccessor httpContextAccessor)
+    public BlobImageCache(
+        IOptions<BlobImageCacheOptions>? cacheOptions,
+        IWebHostEnvironment environment,
+        FormatUtilities formatUtilities,
+        IHttpContextAccessor httpContextAccessor)
     {
         // Allow configuration of the cache without having to register everything.
         _cacheOptions = cacheOptions is not null ? cacheOptions.Value : new();
@@ -63,9 +57,6 @@ public class BlobImageCache : IImageCache
         _httpContextAccessor = httpContextAccessor;
 
         _cacheRootPath = Path.GetFullPath(Path.Combine(environment.ContentRootPath, _cacheOptions.CacheFolder));
-        //fileProvider = new PhysicalFileProvider(cacheRootPath);
-        _options = options.Value;
-        _cacheHashLength = (int)_options.CacheHashLength;
         _formatUtilities = formatUtilities;
     }
 
@@ -100,12 +91,11 @@ public class BlobImageCache : IImageCache
     /// <inheritdoc/>
     public async Task SetAsync(string key, Stream stream, ImageCacheMetadata metadata)
     {
-
         var name = $"{_cacheOptions.Prefix}{key}";
-        var imagefile = $"{name}{ToImageExtension(metadata)}";
+        var imageFile = $"{name}{ToImageExtension(metadata)}";
         var metafile = $"{name}.meta";
 
-        var blob = CreateBlob(imagefile);
+        var blob = CreateBlob(imageFile);
         blob.Write(stream);
 
         blob = CreateBlob(metafile);

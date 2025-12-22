@@ -1,5 +1,8 @@
-﻿namespace Krlbr.Optimizely.ImageSharp.Web.Caching;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Krlbr.Optimizely.ImageSharp.Web.Caching;
+
+[SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
 public class BlobImageCacheOptions
 {
     /// <summary>

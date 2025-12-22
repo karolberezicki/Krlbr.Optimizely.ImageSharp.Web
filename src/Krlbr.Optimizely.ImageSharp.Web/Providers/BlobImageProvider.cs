@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using EPiServer.Core;
 using EPiServer.Web.Routing;
 using Krlbr.Optimizely.ImageSharp.Web.Resolvers;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using SixLabors.ImageSharp.Web;
@@ -12,6 +12,8 @@ using SixLabors.ImageSharp.Web.Resolvers;
 
 namespace Krlbr.Optimizely.ImageSharp.Web.Providers;
 
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+[SuppressMessage("ReSharper", "ReplaceAutoPropertyWithComputedProperty")]
 public class BlobImageProvider : IImageProvider
 {
 
@@ -28,9 +30,8 @@ public class BlobImageProvider : IImageProvider
     /// <summary>
     /// Initializes a new instance of the <see cref="BlobImageProvider"/> class.
     /// </summary>
-    /// <param name="environment">The environment used by this middleware.</param>
     /// <param name="formatUtilities">Contains various format helper methods based on the current configuration.</param>
-    public BlobImageProvider(IWebHostEnvironment environment, FormatUtilities formatUtilities)
+    public BlobImageProvider(FormatUtilities formatUtilities)
     {
         _formatUtilities = formatUtilities;
     }

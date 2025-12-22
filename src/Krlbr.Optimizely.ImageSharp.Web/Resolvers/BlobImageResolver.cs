@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using EPiServer.Core;
-using Microsoft.Extensions.FileProviders;
 using SixLabors.ImageSharp.Web;
 using SixLabors.ImageSharp.Web.Resolvers;
 

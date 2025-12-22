@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Web.Routing;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Krlbr.Optimizely.ImageSharp.Web.Extensions;
 
+[SuppressMessage("ReSharper", "UnusedMember.Global")]
 public static class HtmlHelperExtensions
 {
     public static UrlBuilder ProcessImage(this IHtmlHelper _, ContentReference image)
@@ -27,12 +29,9 @@ public static class HtmlHelperExtensions
 
     public static UrlBuilder ProcessImage(this IHtmlHelper _, string? imageUrl)
     {
-        if (string.IsNullOrEmpty(imageUrl))
-        {
-            throw new ArgumentNullException(nameof(imageUrl), "You might want to use `ProcessImageWithFallback()` instead");
-        }
-
-        return ConstructUrl(imageUrl);
+        return string.IsNullOrEmpty(imageUrl)
+            ? throw new ArgumentNullException(nameof(imageUrl), "You might want to use `ProcessImageWithFallback()` instead")
+            : ConstructUrl(imageUrl);
     }
 
     public static UrlBuilder ProcessImageWithFallback(this IHtmlHelper _, string? imageUrl, string? imageFallback)
@@ -43,7 +42,6 @@ public static class HtmlHelperExtensions
     private static UrlBuilder ConstructUrl(string? url)
     {
         var builder = new UrlBuilder(url);
-
         return builder;
     }
 }
