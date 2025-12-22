@@ -1,4 +1,4 @@
-﻿namespace Baaijte.Optimizely.ImageSharp.Web.Caching
+﻿namespace Krlbr.Optimizely.ImageSharp.Web.Caching
 {
     public class BlobImageCacheOptions
     {

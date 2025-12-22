@@ -3,7 +3,7 @@ using System.IO;
 using AlloyMvcTemplates.Extensions;
 using AlloyMvcTemplates.Infrastructure;
 
-using Baaijte.Optimizely.ImageSharp.Web;
+using Krlbr.Optimizely.ImageSharp.Web;
 
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Data;
@@ -54,7 +54,7 @@ namespace EPiServer.Templates.Alloy.Mvc
             services.AddAlloy();
             services.AddCms();
 
-            services.AddBaaijteOptimizelyImageSharp();
+            services.AddKrlbrOptimizelyImageSharp();
 
 
             services.AddEmbeddedLocalization<Startup>();
@@ -68,7 +68,7 @@ namespace EPiServer.Templates.Alloy.Mvc
                 app.UseMiddleware<AdministratorRegistrationPageMiddleware>();
             }
 
-            app.UseBaaijteOptimizelyImageSharp();
+            app.UseKrlbrOptimizelyImageSharp();
 
             app.UseStaticFiles();
 

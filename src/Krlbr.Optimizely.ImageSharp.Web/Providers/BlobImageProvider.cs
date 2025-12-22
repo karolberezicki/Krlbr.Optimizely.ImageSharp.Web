@@ -1,4 +1,4 @@
-﻿using Baaijte.Optimizely.ImageSharp.Web.Resolvers;
+﻿using Krlbr.Optimizely.ImageSharp.Web.Resolvers;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Web.Routing;
@@ -11,7 +11,7 @@ using SixLabors.ImageSharp.Web.Resolvers;
 using System;
 using System.Threading.Tasks;
 
-namespace Baaijte.Optimizely.ImageSharp.Web.Providers
+namespace Krlbr.Optimizely.ImageSharp.Web.Providers
 {
     public class BlobImageProvider : IImageProvider
     {

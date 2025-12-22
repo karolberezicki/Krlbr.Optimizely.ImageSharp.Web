@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileProviders;
 using SixLabors.ImageSharp.Web;
 using SixLabors.ImageSharp.Web.Resolvers;
 
-namespace Baaijte.Optimizely.ImageSharp.Web.Caching
+namespace Krlbr.Optimizely.ImageSharp.Web.Caching
 {
     /// <summary>
     /// Provides means to manage image buffers within the <see cref="BlobImageCache"/>.

@@ -1,4 +1,4 @@
-﻿namespace Baaijte.Optimizely.ImageSharp.Web
+﻿namespace Krlbr.Optimizely.ImageSharp.Web
 {
     public enum ImageFormat
     {

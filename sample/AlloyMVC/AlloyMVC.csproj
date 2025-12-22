@@ -29,6 +29,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\Baaijte.Optimizely.ImageSharp.Web\Baaijte.Optimizely.ImageSharp.Web.csproj" />
+	  <ProjectReference Include="..\..\src\Krlbr.Optimizely.ImageSharp.Web\Krlbr.Optimizely.ImageSharp.Web.csproj" />
 	</ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Baaijte.Optimizely.ImageSharp.Web.Caching
+namespace Krlbr.Optimizely.ImageSharp.Web.Caching
 {
     /// <summary>
     /// Implements an Optimizely blob based cache.

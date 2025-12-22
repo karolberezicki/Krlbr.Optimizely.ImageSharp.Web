@@ -4,7 +4,7 @@ using EPiServer;
 
 using SixLabors.ImageSharp.Processing;
 
-namespace Baaijte.Optimizely.ImageSharp.Web
+namespace Krlbr.Optimizely.ImageSharp.Web
 {
     public static class UrlBuilderExtensions
     {

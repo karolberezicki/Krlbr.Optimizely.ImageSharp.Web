@@ -6,7 +6,7 @@ using EPiServer.Web.Routing;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Baaijte.Optimizely.ImageSharp.Web
+namespace Krlbr.Optimizely.ImageSharp.Web
 {
     public static class HtmlHelperExtensions
     {

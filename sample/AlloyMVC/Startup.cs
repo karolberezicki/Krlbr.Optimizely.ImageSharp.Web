@@ -1,5 +1,5 @@
 using AlloyMVC.Extensions;
-using Baaijte.Optimizely.ImageSharp.Web;
+using Krlbr.Optimizely.ImageSharp.Web;
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Scheduler;
@@ -39,7 +39,7 @@ namespace AlloyMVC
                 .AddAdminUserRegistration()
                 .AddEmbeddedLocalization<Startup>();
 
-            services.AddBaaijteOptimizelyImageSharp();
+            services.AddKrlbrOptimizelyImageSharp();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,7 +49,7 @@ namespace AlloyMVC
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseBaaijteOptimizelyImageSharp();
+            app.UseKrlbrOptimizelyImageSharp();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

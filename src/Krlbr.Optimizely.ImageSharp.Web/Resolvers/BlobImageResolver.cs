@@ -7,7 +7,7 @@ using Microsoft.Extensions.FileProviders;
 using SixLabors.ImageSharp.Web;
 using SixLabors.ImageSharp.Web.Resolvers;
 
-namespace Baaijte.Optimizely.ImageSharp.Web.Resolvers
+namespace Krlbr.Optimizely.ImageSharp.Web.Resolvers
 {
     public class BlobImageResolver : IImageResolver
     {
