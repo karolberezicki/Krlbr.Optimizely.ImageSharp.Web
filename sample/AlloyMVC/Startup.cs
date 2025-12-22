@@ -12,53 +12,52 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 
-namespace AlloyMVC
+namespace AlloyMVC;
+
+public class Startup
 {
-    public class Startup
+    private readonly IWebHostEnvironment _webHostingEnvironment;
+
+    public Startup(IWebHostEnvironment webHostingEnvironment)
     {
-        private readonly IWebHostEnvironment _webHostingEnvironment;
+        _webHostingEnvironment = webHostingEnvironment;
+    }
 
-        public Startup(IWebHostEnvironment webHostingEnvironment)
+    public void ConfigureServices(IServiceCollection services)
+    {
+        if (_webHostingEnvironment.IsDevelopment())
         {
-            _webHostingEnvironment = webHostingEnvironment;
+            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
+
+            services.Configure<SchedulerOptions>(options => options.Enabled = false);
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        services
+            .AddCmsAspNetIdentity<ApplicationUser>()
+            .AddCms()
+            .AddAlloy()
+            .AddAdminUserRegistration()
+            .AddEmbeddedLocalization<Startup>();
+
+        services.AddKrlbrOptimizelyImageSharp();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
         {
-            if (_webHostingEnvironment.IsDevelopment())
-            {
-                AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
-
-                services.Configure<SchedulerOptions>(options => options.Enabled = false);
-            }
-
-            services
-                .AddCmsAspNetIdentity<ApplicationUser>()
-                .AddCms()
-                .AddAlloy()
-                .AddAdminUserRegistration()
-                .AddEmbeddedLocalization<Startup>();
-
-            services.AddKrlbrOptimizelyImageSharp();
+            app.UseDeveloperExceptionPage();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseKrlbrOptimizelyImageSharp();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseKrlbrOptimizelyImageSharp();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapContent();
-            });
-        }
+            endpoints.MapContent();
+        });
     }
 }

@@ -11,70 +11,69 @@ using SixLabors.ImageSharp.Web.Resolvers;
 using System;
 using System.Threading.Tasks;
 
-namespace Krlbr.Optimizely.ImageSharp.Web.Providers
+namespace Krlbr.Optimizely.ImageSharp.Web.Providers;
+
+public class BlobImageProvider : IImageProvider
 {
-    public class BlobImageProvider : IImageProvider
+
+    /// <summary>
+    /// A match function used by the resolver to identify itself as the correct resolver to use.
+    /// </summary>
+    private Func<HttpContext, bool> _match;
+
+    /// <summary>
+    /// Contains various format helper methods based on the current configuration.
+    /// </summary>
+    private readonly FormatUtilities _formatUtilities;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BlobImageProvider"/> class.
+    /// </summary>
+    /// <param name="environment">The environment used by this middleware.</param>
+    /// <param name="formatUtilities">Contains various format helper methods based on the current configuration.</param>
+    public BlobImageProvider(IWebHostEnvironment environment, FormatUtilities formatUtilities)
     {
+        _formatUtilities = formatUtilities;
+    }
 
-        /// <summary>
-        /// A match function used by the resolver to identify itself as the correct resolver to use.
-        /// </summary>
-        private Func<HttpContext, bool> _match;
+    /// <inheritdoc/>
+    public ProcessingBehavior ProcessingBehavior { get; } = ProcessingBehavior.CommandOnly;
 
-        /// <summary>
-        /// Contains various format helper methods based on the current configuration.
-        /// </summary>
-        private readonly FormatUtilities _formatUtilities;
+    /// <inheritdoc/>
+    public Func<HttpContext, bool> Match
+    {
+        get => _match ?? IsMatch;
+        set => _match = value;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BlobImageProvider"/> class.
-        /// </summary>
-        /// <param name="environment">The environment used by this middleware.</param>
-        /// <param name="formatUtilities">Contains various format helper methods based on the current configuration.</param>
-        public BlobImageProvider(IWebHostEnvironment environment, FormatUtilities formatUtilities)
+    /// <inheritdoc/>
+    public bool IsValidRequest(HttpContext context) => _formatUtilities.TryGetExtensionFromUri(context.Request.GetDisplayUrl(), out _);
+
+    /// <inheritdoc/>
+    public Task<IImageResolver> GetAsync(HttpContext context)
+    {
+        string url = context.Request.Path.Value;
+
+        MediaData media = UrlResolver.Current.Route(new UrlBuilder(url)) as MediaData;
+
+        if (media != null && media.BinaryData != null)
         {
-            _formatUtilities = formatUtilities;
+            return Task.FromResult<IImageResolver>(new BlobImageResolver(media));
         }
+        return Task.FromResult<IImageResolver>(null);
+    }
 
-        /// <inheritdoc/>
-        public ProcessingBehavior ProcessingBehavior { get; } = ProcessingBehavior.CommandOnly;
+    private bool IsMatch(HttpContext context)
+    {
+        if (context.Request.Path.StartsWithSegments("/contentassets", StringComparison.OrdinalIgnoreCase))
+            return true;
 
-        /// <inheritdoc/>
-        public Func<HttpContext, bool> Match
-        {
-            get => _match ?? IsMatch;
-            set => _match = value;
-        }
+        if (context.Request.Path.StartsWithSegments("/globalassets", StringComparison.OrdinalIgnoreCase))
+            return true;
 
-        /// <inheritdoc/>
-        public bool IsValidRequest(HttpContext context) => _formatUtilities.TryGetExtensionFromUri(context.Request.GetDisplayUrl(), out _);
+        if (context.Request.Path.StartsWithSegments("/siteassets", StringComparison.OrdinalIgnoreCase))
+            return true;
 
-        /// <inheritdoc/>
-        public Task<IImageResolver> GetAsync(HttpContext context)
-        {
-            string url = context.Request.Path.Value;
-
-            MediaData media = UrlResolver.Current.Route(new UrlBuilder(url)) as MediaData;
-
-            if (media != null && media.BinaryData != null)
-            {
-                return Task.FromResult<IImageResolver>(new BlobImageResolver(media));
-            }
-            return Task.FromResult<IImageResolver>(null);
-        }
-
-        private bool IsMatch(HttpContext context)
-        {
-            if (context.Request.Path.StartsWithSegments("/contentassets", StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            if (context.Request.Path.StartsWithSegments("/globalassets", StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            if (context.Request.Path.StartsWithSegments("/siteassets", StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            return false;
-        }
+        return false;
     }
 }

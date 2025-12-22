@@ -4,23 +4,22 @@ using EPiServer.Shell.ObjectEditing.EditorDescriptors;
 using System;
 using System.Collections.Generic;
 
-namespace AlloyMVC.Business.EditorDescriptors
+namespace AlloyMVC.Business.EditorDescriptors;
+
+/// <summary>
+/// Registers an editor to select a ContactPage for a PageReference property using a dropdown
+/// </summary>
+[EditorDescriptorRegistration(
+    TargetType = typeof(PageReference),
+    UIHint = Globals.SiteUIHints.Contact)]
+public class ContactPageSelector : EditorDescriptor
 {
-    /// <summary>
-    /// Registers an editor to select a ContactPage for a PageReference property using a dropdown
-    /// </summary>
-    [EditorDescriptorRegistration(
-        TargetType = typeof(PageReference),
-        UIHint = Globals.SiteUIHints.Contact)]
-    public class ContactPageSelector : EditorDescriptor
+    public override void ModifyMetadata(ExtendedMetadata metadata, IEnumerable<Attribute> attributes)
     {
-        public override void ModifyMetadata(ExtendedMetadata metadata, IEnumerable<Attribute> attributes)
-        {
-            SelectionFactoryType = typeof(ContactPageSelectionFactory);
+        SelectionFactoryType = typeof(ContactPageSelectionFactory);
 
-            ClientEditingClass = "epi-cms/contentediting/editors/SelectionEditor";
+        ClientEditingClass = "epi-cms/contentediting/editors/SelectionEditor";
 
-            base.ModifyMetadata(metadata, attributes);
-        }
+        base.ModifyMetadata(metadata, attributes);
     }
 }

@@ -1,13 +1,12 @@
 using AlloyMVC.Models.ViewModels;
 
-namespace AlloyMVC.Business
+namespace AlloyMVC.Business;
+
+/// <summary>
+/// Defines a method which may be invoked by PageContextActionFilter allowing controllers
+/// to modify common layout properties of the view model.
+/// </summary>
+internal interface IModifyLayout
 {
-    /// <summary>
-    /// Defines a method which may be invoked by PageContextActionFilter allowing controllers
-    /// to modify common layout properties of the view model.
-    /// </summary>
-    internal interface IModifyLayout
-    {
-        void ModifyLayout(LayoutModel layoutModel);
-    }
+    void ModifyLayout(LayoutModel layoutModel);
 }
