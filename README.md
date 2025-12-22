@@ -1,5 +1,7 @@
 ## What's New
 
+Fork of [Baaijte.Optimizely.ImageSharp.Web](https://github.com/vnbaaij/Baaijte.Optimizely.ImageSharp.Web)
+
 ### V3.0.1
 Package now uses:
 - SixLabors.ImageSharp 3.1.4
