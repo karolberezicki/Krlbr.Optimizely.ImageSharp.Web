@@ -1,9 +1,12 @@
+using System;
 using AlloyMVC.Business;
 using AlloyMVC.Business.Channels;
 using AlloyMVC.Business.Rendering;
+using EPiServer.DependencyInjection;
 using EPiServer.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AlloyMVC.Extensions;
@@ -36,5 +39,12 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IpadHorizontalResolution>();
         services.AddSingleton<IphoneVerticalResolution>();
         services.AddSingleton<AndroidVerticalResolution>();
+    }
+
+    public static void AddMinimalCmsCloudPlatformSupport(this IServiceCollection services, IConfiguration configuration)
+    {
+        ArgumentNullException.ThrowIfNull(services);
+        services.AddAzureBlobProvider();
+        services.AddDataProtectionToBlobStorage(configuration);
     }
 }

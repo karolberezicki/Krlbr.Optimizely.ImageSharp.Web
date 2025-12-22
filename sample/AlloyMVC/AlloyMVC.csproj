@@ -2,9 +2,11 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>disable</Nullable>
+        <UserSecretsId>659679d3-3214-4c81-8ff3-26365487ceb7</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="EPiServer.CloudPlatform.Cms" Version="1.7.3" />
         <PackageReference Include="EPiServer.CMS" Version="12.34.1"/>
         <PackageReference Include="EPiServer.CMS.TinyMce" Version="5.0.3"/>
         <PackageReference Include="EpiServer.Framework" Version="12.23.0"/>
