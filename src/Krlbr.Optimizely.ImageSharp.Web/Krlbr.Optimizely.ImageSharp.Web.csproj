@@ -1,43 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="..\..\dependencies.props" />
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<Version>3.0.1</Version>
-		<Author>karolberezicki</Author>
-		<Company>Krlbr</Company>
-		<Description>Use SixLabors.ImageSharp.Web in Optimizely</Description>
-		<Copyright>2024</Copyright>
-		<PackageProjectUrl>https://github.com/karolberezicki/Krlbr.Optimizely.ImageSharp.Web</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/karolberezicki/Krlbr.Optimizely.ImageSharp.Web</RepositoryUrl>
-		<PackageTags>ImageSharp Optimizely Episerver</PackageTags>
-		<PackageId />
-		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-		<Authors>vnbaaij,karolberezicki</Authors>
-		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryType>git</RepositoryType>
-		<PackageReleaseNotes>From version 3.0 this package is targeting .NET 8</PackageReleaseNotes>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Include="..\..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+    <Import Project="..\..\dependencies.props"/>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Version>3.0.1</Version>
+        <Author>karolberezicki</Author>
+        <Company>Krlbr</Company>
+        <Description>Use SixLabors.ImageSharp.Web in Optimizely</Description>
+        <Copyright>2024</Copyright>
+        <PackageProjectUrl>https://github.com/karolberezicki/Krlbr.Optimizely.ImageSharp.Web</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/karolberezicki/Krlbr.Optimizely.ImageSharp.Web</RepositoryUrl>
+        <PackageTags>ImageSharp Optimizely Episerver</PackageTags>
+        <PackageId/>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <Authors>vnbaaij,karolberezicki</Authors>
+        <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryType>git</RepositoryType>
+        <PackageReleaseNotes>From version 3.0 this package is targeting .NET 8</PackageReleaseNotes>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="..\..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
 
-	<ItemGroup>
-		<Compile Remove="modules\**" />
-		<EmbeddedResource Remove="modules\**" />
-		<None Remove="modules\**" />
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Remove="modules\**"/>
+        <EmbeddedResource Remove="modules\**"/>
+        <None Remove="modules\**"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="EPiServer.CMS" Version="12.30.0" />
-		<PackageReference Include="EPiServer.ImageLibrary.ImageSharp" Version="2.0.5" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
-		<PackageReference Include="SixLabors.ImageSharp.Web" Version="3.2.0" />
-		<PackageReference Include="SixLabors.ImageSharp.Web.Providers.Azure" Version="3.2.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="EPiServer.CMS" Version="12.30.0"/>
+        <PackageReference Include="EPiServer.ImageLibrary.ImageSharp" Version="2.0.5"/>
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12"/>
+        <PackageReference Include="SixLabors.ImageSharp.Web" Version="3.2.0"/>
+        <PackageReference Include="SixLabors.ImageSharp.Web.Providers.Azure" Version="3.2.0"/>
+    </ItemGroup>
 
 </Project>
