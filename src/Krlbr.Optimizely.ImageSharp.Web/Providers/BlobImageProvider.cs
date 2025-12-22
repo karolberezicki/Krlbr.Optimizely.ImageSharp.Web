@@ -64,7 +64,7 @@ public class BlobImageProvider : IImageProvider
         return Task.FromResult<IImageResolver?>(null);
     }
 
-    private bool IsMatch(HttpContext context)
+    private static bool IsMatch(HttpContext context)
     {
         var matchMediaUrlSegments = MediaUrlSegments
             .Any(p => context.Request.Path.StartsWithSegments(p, StringComparison.OrdinalIgnoreCase));
