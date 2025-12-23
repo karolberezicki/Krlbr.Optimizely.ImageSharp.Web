@@ -2,6 +2,18 @@
 
 Fork of [Baaijte.Optimizely.ImageSharp.Web](https://github.com/vnbaaij/Baaijte.Optimizely.ImageSharp.Web)
 
+### V3.1.0
+
+Renamed package for fork and updated ImageSharp package versions.\
+Added Azure blob storage support for the sample app with configurable cache folder.\
+Modernized codebase by applying C# modern patterns, enabling nullable reference types, file-scoped namespaces, and optimizing BlobImageProvider.
+
+Package now uses:
+- SixLabors.ImageSharp 3.1.12
+- SixLabors.ImageSharp.Web 3.2.0
+- SixLabors.ImageSharp.Web.Providers.Azure 3.2.0
+
+
 ### V3.0.1
 Package now uses:
 - SixLabors.ImageSharp 3.1.4
