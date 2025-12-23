@@ -63,28 +63,18 @@ public class BlobImageCache : IImageCache
     /// <inheritdoc/>
     public async Task<IImageCacheResolver?> GetAsync(string key)
     {
-        var container = GetContainer();
-        var fileId = $"{Blob.BlobUriScheme}://{Blob.DefaultProvider}/{container}/{_cacheOptions.Prefix}{key}";
-
-        var blobFactory = ServiceLocator.Current.GetInstance<IBlobFactory>();
-        Uri uri = new($"{fileId}.meta");
-
-        var blob = blobFactory.GetBlob(uri);
-
-        var metaFileInfo = await blob.AsFileInfoAsync();
-
-        if (!metaFileInfo.Exists)
+        var fileName = $"{_cacheOptions.Prefix}{key}";
+        var blob = CreateBlob($"{fileName}.meta");
+        var fileInfo = await blob.AsFileInfoAsync();
+        if (!fileInfo.Exists)
         {
             return null;
         }
 
         var metadata = await ImageCacheMetadata.ReadAsync(blob.OpenRead());
 
-        uri = new($"{fileId}{ToImageExtension(metadata)}");
-        blob = blobFactory.GetBlob(uri);
-        var fileInfo = await blob.AsFileInfoAsync();
-
-        // Check to see if the file exists.
+        blob = CreateBlob($"{fileName}{ToImageExtension(metadata)}");
+        fileInfo = await blob.AsFileInfoAsync();
         return !fileInfo.Exists ? null : new BlobImageCacheResolver(fileInfo, metadata);
     }
 
