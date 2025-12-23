@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Props", "_Props", "{584458
 		dependencies.props = dependencies.props
 		LICENSE = LICENSE
 		README.md = README.md
+		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{59365865-F745-4363-942D-C772CABB01B2}"
