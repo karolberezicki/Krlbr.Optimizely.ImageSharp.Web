@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/samples/">
+    <Project Path="sample/Alloy/Alloy.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Krlbr.Optimizely.ImageSharp.Web/Krlbr.Optimizely.ImageSharp.Web.csproj" />
+  </Folder>
+  <Folder Name="/_Props/">
+    <File Path=".gitignore" />
+    <File Path="build/build-package.debug.ps1" />
+    <File Path="build/build-package.release.ps1" />
+    <File Path="dependencies.props" />
+    <File Path="LICENSE" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+    <File Path="src/Krlbr.Optimizely.ImageSharp.Web/Krlbr.Optimizely.ImageSharp.Web.nuspec" />
+  </Folder>
+</Solution>

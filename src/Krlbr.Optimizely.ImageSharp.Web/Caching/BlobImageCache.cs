@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using EPiServer.Core;
 using EPiServer.Framework.Blobs;
@@ -16,7 +17,7 @@ using SixLabors.ImageSharp.Web.Resolvers;
 namespace Krlbr.Optimizely.ImageSharp.Web.Caching;
 
 /// <summary>
-/// Implements an Optimizely blob based cache.
+/// Implements an Optimizely blob-based cache.
 /// </summary>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class BlobImageCache : IImageCache
@@ -63,33 +64,43 @@ public class BlobImageCache : IImageCache
     /// <inheritdoc/>
     public async Task<IImageCacheResolver?> GetAsync(string key)
     {
+        var cancellationToken = _httpContextAccessor.HttpContext?.RequestAborted ?? CancellationToken.None;
         var fileName = $"{_cacheOptions.Prefix}{key}";
         var blob = CreateBlob($"{fileName}.meta");
-        var fileInfo = await blob.AsFileInfoAsync();
-        if (!fileInfo.Exists)
+        var exists = await blob.ExistsAsync(cancellationToken);
+        if (!exists)
         {
             return null;
         }
 
-        var metadata = await ImageCacheMetadata.ReadAsync(blob.OpenRead());
+        await using var readStream = await blob.OpenReadAsync(cancellationToken);
+        var metadata = await ImageCacheMetadata.ReadAsync(readStream);
 
         blob = CreateBlob($"{fileName}{ToImageExtension(metadata)}");
-        fileInfo = await blob.AsFileInfoAsync();
-        return !fileInfo.Exists ? null : new BlobImageCacheResolver(fileInfo, metadata);
+        exists = await blob.ExistsAsync(cancellationToken);
+        if (!exists)
+        {
+            return null;
+        }
+
+        var fileInfo = await blob.AsFileInfoAsync(default, false, cancellationToken);
+        return new BlobImageCacheResolver(fileInfo, metadata);
     }
 
     /// <inheritdoc/>
     public async Task SetAsync(string key, Stream stream, ImageCacheMetadata metadata)
     {
+        var cancellationToken = _httpContextAccessor.HttpContext?.RequestAborted ?? CancellationToken.None;
         var name = $"{_cacheOptions.Prefix}{key}";
         var imageFile = $"{name}{ToImageExtension(metadata)}";
         var metafile = $"{name}.meta";
 
         var blob = CreateBlob(imageFile);
-        blob.Write(stream);
+        await blob.WriteAsync(stream, cancellationToken);
 
         blob = CreateBlob(metafile);
-        await metadata.WriteAsync(blob.OpenWrite());
+        await using var writeStream = await blob.OpenWriteAsync(cancellationToken);
+        await metadata.WriteAsync(writeStream);
     }
 
     private FileBlob CreateBlob(string file)
@@ -106,7 +117,8 @@ public class BlobImageCache : IImageCache
     private string GetContainer()
     {
         var url = _httpContextAccessor.HttpContext?.Request.Path.Value;
-        var media = string.IsNullOrWhiteSpace(url) ? null : UrlResolver.Current.Route(new(url)) as MediaData;
+        var urlResolver = _httpContextAccessor.HttpContext?.RequestServices.GetInstance<IUrlResolver>();
+        var media = string.IsNullOrWhiteSpace(url) ? null : urlResolver.Route(new(url)) as MediaData;
 
         // We're working with a static file here
         var container = media?.BinaryDataContainer?.Segments[1] ?? $"_{_cacheOptions.Prefix}static";

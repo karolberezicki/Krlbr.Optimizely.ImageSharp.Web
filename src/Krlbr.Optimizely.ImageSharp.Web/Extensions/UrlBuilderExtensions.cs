@@ -8,183 +8,179 @@ namespace Krlbr.Optimizely.ImageSharp.Web.Extensions;
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
 public static class UrlBuilderExtensions
 {
-    /// <summary>
-    /// Changes the background color of the current image. This functionality is useful for adding a background when resizing image formats without an alpha channel.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="color">Either a hex rgb coded color (no #) or a named color</param>
-    /// <returns></returns>
-    public static UrlBuilder BackgroundColor(this UrlBuilder target, string color)
+    extension(UrlBuilder target)
     {
-        ArgumentNullException.ThrowIfNull(target);
-
-        if (!target.IsEmpty)
+        /// <summary>
+        /// Changes the background color of the current image. This functionality is useful for adding a background when resizing image formats without an alpha channel.
+        /// </summary>
+        /// <param name="color">Either a hex rgb coded color (no #) or a named color</param>
+        /// <returns></returns>
+        public UrlBuilder BackgroundColor(string color)
         {
-            target.QueryCollection.Add("bgcolor", color.ToLowerInvariant());
-        }
+            ArgumentNullException.ThrowIfNull(target);
 
-        return target;
-    }
+            if (!target.IsEmpty)
+            {
+                target.QueryCollection.Add("bgcolor", color.ToLowerInvariant());
+            }
 
-    /// <summary>
-    /// Changes the background color of the current image. This functionality is useful for adding a background when resizing image formats with an alpha channel.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="r">Red value 0-255</param>
-    /// <param name="g">Green value 0-255</param>
-    /// <param name="b">Blue value 0-255</param>
-    /// <param name="a">Alpha value 0-255</param>
-    /// <returns></returns>
-
-    public static UrlBuilder BackgroundColor(this UrlBuilder target, int r, int g, int b, int a)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-
-        if (r < 0 || g < 0 || b < 0 || a < 0 || r > 255 || g > 255 || b > 255 | a > 55)
-        {
-            throw new ArgumentOutOfRangeException(nameof(target));
-        }
-
-        if (!target.IsEmpty)
-        {
-            target.QueryCollection.Add("bgcolor", string.Join(",", r.ToString(), g.ToString(), b.ToString(), a.ToString()));
-        }
-
-        return target;
-    }
-
-
-    /// <summary>
-    /// Sets the output format of the current image to the given value.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="format"><see cref="ImageFormat"/></param>
-    /// <returns></returns>
-    public static UrlBuilder Format(this UrlBuilder target, ImageFormat format)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-
-        if (!target.IsEmpty)
-        {
-            target.QueryCollection.Add("format", format.ToString().ToLowerInvariant());
-        }
-
-        return target;
-    }
-
-    /// <summary>
-    /// Alters the output quality of the current image. This method will only affect the output quality of images that allow lossy processing.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="quality"></param>
-    /// <returns></returns>
-    public static UrlBuilder Quality(this UrlBuilder target, int quality)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-
-        if (quality is <= 0 or > 100)
-        {
-            throw new ArgumentOutOfRangeException(nameof(target));
-        }
-
-        if (!target.IsEmpty)
-        {
-            target.QueryCollection.Add("quality", quality.ToString());
-        }
-
-        return target;
-    }
-
-    /// <summary>
-    /// Resizes the current image to the given dimensions.
-    /// ImageProcessor.Web allows you to scale images both up and down with an excellent quality to size ratio.A maximum width and height can be set in the configuration to help protect you from DoS attacks.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="width">New image width</param>
-    /// <param name="height">New image height</param>
-    /// <param name="mode">The resizing method.</param>
-    /// <param name="sampler">The resampling algorithm to use.</param>
-    /// <param name="center">The center position to anchor the image center point to.</param>
-    /// <param name="anchor">The anchor position</param>
-    /// <param name="compand">Whether to compress and expand individual pixel colors values to/from a linear color space when processing.</param>
-    /// <returns></returns>
-    public static UrlBuilder Resize(this UrlBuilder target, int? width, int? height, ResizeMode mode = ResizeMode.Pad, string? sampler = null, string? center = null, AnchorPositionMode anchor = AnchorPositionMode.Center, bool compand = false)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-
-        if (target.IsEmpty)
-        {
             return target;
         }
 
-        if (width != null)
+        /// <summary>
+        /// Changes the background color of the current image. This functionality is useful for adding a background when resizing image formats with an alpha channel.
+        /// </summary>
+        /// <param name="r">Red value 0-255</param>
+        /// <param name="g">Green value 0-255</param>
+        /// <param name="b">Blue value 0-255</param>
+        /// <param name="a">Alpha value 0-255</param>
+        /// <returns></returns>
+        public UrlBuilder BackgroundColor(int r, int g, int b, int a)
         {
-            target.QueryCollection.Add("width", width.ToString());
+            ArgumentNullException.ThrowIfNull(target);
+
+            if (r < 0 || g < 0 || b < 0 || a < 0 || r > 255 || g > 255 || b > 255 || a > 255)
+            {
+                throw new ArgumentOutOfRangeException(nameof(target));
+            }
+
+            if (!target.IsEmpty)
+            {
+                target.QueryCollection.Add("bgcolor", string.Join(",", r.ToString(), g.ToString(), b.ToString(), a.ToString()));
+            }
+
+            return target;
         }
 
-        if (height != null)
+        /// <summary>
+        /// Sets the output format of the current image to the given value.
+        /// </summary>
+        /// <param name="format"><see cref="ImageFormat"/></param>
+        /// <returns></returns>
+        public UrlBuilder Format(ImageFormat format)
         {
-            target.QueryCollection.Add("height", height.ToString());
+            ArgumentNullException.ThrowIfNull(target);
+
+            if (!target.IsEmpty)
+            {
+                target.QueryCollection.Add("format", format.ToString().ToLowerInvariant());
+            }
+
+            return target;
         }
 
-        if (mode != ResizeMode.Pad)
+        /// <summary>
+        /// Alters the output quality of the current image. This method will only affect the output quality of images that allow lossy processing.
+        /// </summary>
+        /// <param name="quality"></param>
+        /// <returns></returns>
+        public UrlBuilder Quality(int quality)
         {
-            target.QueryCollection.Add("rmode", mode.ToString().ToLower());
+            ArgumentNullException.ThrowIfNull(target);
+
+            if (quality is <= 0 or > 100)
+            {
+                throw new ArgumentOutOfRangeException(nameof(target));
+            }
+
+            if (!target.IsEmpty)
+            {
+                target.QueryCollection.Add("quality", quality.ToString());
+            }
+
+            return target;
         }
 
-        //if (sampler != null)
-        target.QueryCollection.Add("rsampler", sampler ?? "bicubic");
-
-        if (center != null)
+        /// <summary>
+        /// Resizes the current image to the given dimensions.
+        /// ImageProcessor.Web allows you to scale images both up and down with an excellent quality to size ratio.A maximum width and height can be set in the configuration to help protect you from DoS attacks.
+        /// </summary>
+        /// <param name="width">New image width</param>
+        /// <param name="height">New image height</param>
+        /// <param name="mode">The resizing method.</param>
+        /// <param name="sampler">The resampling algorithm to use.</param>
+        /// <param name="center">The center position to anchor the image center point to.</param>
+        /// <param name="anchor">The anchor position</param>
+        /// <param name="compand">Whether to compress and expand individual pixel colors values to/from a linear color space when processing.</param>
+        /// <returns></returns>
+        public UrlBuilder Resize(int? width, int? height, ResizeMode mode = ResizeMode.Pad, string? sampler = null, string? center = null,
+            AnchorPositionMode anchor = AnchorPositionMode.Center, bool compand = false)
         {
-            target.QueryCollection.Add("rxy", center);
+            ArgumentNullException.ThrowIfNull(target);
+
+            if (target.IsEmpty)
+            {
+                return target;
+            }
+
+            if (width != null)
+            {
+                target.QueryCollection.Add("width", width.ToString());
+            }
+
+            if (height != null)
+            {
+                target.QueryCollection.Add("height", height.ToString());
+            }
+
+            if (mode != ResizeMode.Pad)
+            {
+                target.QueryCollection.Add("rmode", mode.ToString().ToLower());
+            }
+
+            //if (sampler != null)
+            target.QueryCollection.Add("rsampler", sampler ?? "bicubic");
+
+            if (center != null)
+            {
+                target.QueryCollection.Add("rxy", center);
+            }
+
+            if (anchor != AnchorPositionMode.Center)
+            {
+                target.QueryCollection.Add("ranchor", anchor.ToString().ToLower());
+            }
+
+            if (!compand)
+            {
+                target.QueryCollection.Add("compand", "true");
+            }
+
+            return target;
         }
 
-        if (anchor != AnchorPositionMode.Center)
+        /// <summary>
+        /// Resizes the current image to the given width, Uses defaults for all other resize parameters
+        /// </summary>
+        /// <param name="width">New width of the image</param>
+        /// <returns></returns>
+        public UrlBuilder Width(int width)
         {
-            target.QueryCollection.Add("ranchor", anchor.ToString().ToLower());
+            ArgumentNullException.ThrowIfNull(target);
+
+            if (!target.IsEmpty)
+            {
+                target.QueryCollection.Add("width", width.ToString());
+            }
+
+            return target;
         }
 
-        if (!compand)
+        /// <summary>
+        /// Resizes the current image to the given height, Uses defaults for all other resize parameters
+        /// </summary>
+        /// <param name="height">New height of the image</param>
+        /// <returns></returns>
+        public UrlBuilder Height(int height)
         {
-            target.QueryCollection.Add("compand", "true");
+            ArgumentNullException.ThrowIfNull(target);
+
+            if (!target.IsEmpty)
+            {
+                target.QueryCollection.Add("height", height.ToString());
+            }
+
+            return target;
         }
-        return target;
-    }
-
-    /// <summary>
-    /// Resizes the current image to the given width, Uses defaults for all other resize parameters
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="width">New width of the image</param>
-    /// <returns></returns>
-    public static UrlBuilder Width(this UrlBuilder target, int width)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-
-        if (!target.IsEmpty)
-        {
-            target.QueryCollection.Add("width", width.ToString());
-        }
-
-        return target;
-    }
-
-    /// <summary>
-    /// Resizes the current image to the given height, Uses defaults for all other resize parameters
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="height">New height of the image</param>
-    /// <returns></returns>
-    public static UrlBuilder Height(this UrlBuilder target, int height)
-    {
-        ArgumentNullException.ThrowIfNull(target);
-
-        if (!target.IsEmpty)
-        {
-            target.QueryCollection.Add("height", height.ToString());
-        }
-
-        return target;
     }
 }

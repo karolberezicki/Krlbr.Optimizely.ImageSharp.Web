@@ -3,22 +3,23 @@
   <metadata>
     <id>Krlbr.Optimizely.ImageSharp.Web</id>
     <version>$version$</version>
-    <title></title>
+    <title>Krlbr.Optimizely.ImageSharp.Web</title>
     <authors>vnbaaij,karolberezicki</authors>
     <owners>karolberezicki</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">Apache-2.0</license>
     <projectUrl>https://github.com/karolberezicki/Krlbr.Optimizely.ImageSharp.Web</projectUrl>
     <description>Use SixLabors.ImageSharp.Web in Optimizely</description>
-    <releaseNotes>Supports Episerver 12 and higher</releaseNotes>
-    <copyright>Copyright 2025, Karol Berezicki</copyright>
+    <releaseNotes>Supports Optimizely CMS 13 and higher</releaseNotes>
+    <copyright>Copyright 2026, Karol Berezicki</copyright>
     <tags>Optimizely ImageSharp Blob Cache</tags>
     <dependencies>
-      <group targetFramework="net8.0">
-      <dependency id="SixLabors.ImageSharp" version="3.1.4" />
-      <dependency id="SixLabors.ImageSharp.Web" version="3.1.2" />
-      <dependency id="SixLabors.ImageSharp.Web.Providers.Azure" version="3.1.2" />
-      <dependency id="EPiServer.CMS" version="[12.13.0, 13.0.0)" />
+      <group targetFramework="net10.0">
+      <dependency id="SixLabors.ImageSharp" version="3.1.12" />
+      <dependency id="SixLabors.ImageSharp.Web" version="3.2.0" />
+      <dependency id="SixLabors.ImageSharp.Web.Providers.Azure" version="3.2.0" />
+      <dependency id="EPiServer.CMS" version="[13.0.0, 14.0.0)" />
+      <dependency id="EPiServer.ImageLibrary.ImageSharp" version="[13.0.0, 14.0.0)" />
       </group>
     </dependencies>
   </metadata>

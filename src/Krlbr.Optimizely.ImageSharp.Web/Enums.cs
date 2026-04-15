@@ -11,5 +11,5 @@ public enum ImageFormat
     //Tif,
     //Tiff,
     WebP,
-    Tga
+    Tga,
 }

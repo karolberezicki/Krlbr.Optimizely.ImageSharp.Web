@@ -261,8 +261,6 @@ UpgradeLog*.htm
 ServiceFabricBackup/
 *.rptproj.bak
 
-
-/nuget.exe
-/sample/Alloy/App_Data/blobs/*
-/build
-/sample/Alloy/App_Data
+.idea
+sample/Alloy/App_Data/blobs
+src/Krlbr.Optimizely.ImageSharp.Web/modules/_protected

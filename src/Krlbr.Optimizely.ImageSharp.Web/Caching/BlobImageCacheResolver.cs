@@ -7,7 +7,7 @@ using SixLabors.ImageSharp.Web.Resolvers;
 namespace Krlbr.Optimizely.ImageSharp.Web.Caching;
 
 /// <summary>
-/// Provides means to manage image buffers within the <see cref="BlobImageCache"/>.
+/// Provides the means to manage image buffers within the <see cref="BlobImageCache"/>.
 /// </summary>
 public class BlobImageCacheResolver : IImageCacheResolver
 {

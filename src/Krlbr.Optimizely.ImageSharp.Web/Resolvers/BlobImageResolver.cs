@@ -15,7 +15,6 @@ public class BlobImageResolver : IImageResolver
     /// Initializes a new instance of the <see cref="BlobImageResolver"/> class.
     /// </summary>
     /// <param name="media">The image.</param>
-
     public BlobImageResolver(MediaData media)
     {
         _media = media;
@@ -25,12 +24,11 @@ public class BlobImageResolver : IImageResolver
     public async Task<ImageMetadata> GetMetaDataAsync()
     {
         DateTimeOffset lastModified = _media.Saved;
-        var fileInfo = await _media.BinaryData.AsFileInfoAsync(lastModified);
+        var fileInfo = await _media.BinaryData.AsFileInfoAsync(lastModified, false);
 
         return new(lastModified.UtcDateTime, fileInfo.Length);
     }
 
     /// <inheritdoc/>
     public Task<Stream> OpenReadAsync() => Task.FromResult(_media.BinaryData.OpenRead());
-
 }

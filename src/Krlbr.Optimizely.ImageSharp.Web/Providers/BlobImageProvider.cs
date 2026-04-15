@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using EPiServer.Core;
-using EPiServer.Web;
+using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Krlbr.Optimizely.ImageSharp.Web.Resolvers;
 using Microsoft.AspNetCore.Http;
@@ -17,11 +17,6 @@ namespace Krlbr.Optimizely.ImageSharp.Web.Providers;
 [SuppressMessage("ReSharper", "ReplaceAutoPropertyWithComputedProperty")]
 public class BlobImageProvider : IImageProvider
 {
-    /// <summary>
-    /// A match function used by the resolver to identify itself as the correct resolver to use.
-    /// </summary>
-    private Func<HttpContext, bool>? _match;
-
     /// <summary>
     /// Contains various format helper methods based on the current configuration.
     /// </summary>
@@ -42,8 +37,8 @@ public class BlobImageProvider : IImageProvider
     /// <inheritdoc/>
     public Func<HttpContext, bool> Match
     {
-        get => _match ?? IsMatch;
-        set => _match = value;
+        get => field ?? IsMatch;
+        set;
     }
 
     /// <inheritdoc/>
@@ -53,8 +48,9 @@ public class BlobImageProvider : IImageProvider
     public Task<IImageResolver?> GetAsync(HttpContext context)
     {
         var url = context.Request.Path.Value;
+        var urlResolver = context.RequestServices.GetInstance<IUrlResolver>();
 
-        if (UrlResolver.Current.Route(new(url)) is MediaData { BinaryData: not null } media)
+        if (urlResolver.Route(new(url)) is MediaData { BinaryData: not null } media)
         {
             return Task.FromResult<IImageResolver?>(new BlobImageResolver(media));
         }
@@ -67,13 +63,11 @@ public class BlobImageProvider : IImageProvider
         var matchMediaUrlSegments =
             context.Request.Path.StartsWithSegments(ContentAssetPath, StringComparison.OrdinalIgnoreCase)
             || context.Request.Path.StartsWithSegments(GlobalAssetPath, StringComparison.OrdinalIgnoreCase)
-            || context.Request.Path.StartsWithSegments(SiteAssetPath, StringComparison.OrdinalIgnoreCase)
-            || context.Request.Path.StartsWithSegments(SysSiteAssetsPath, StringComparison.OrdinalIgnoreCase);
+            || context.Request.Path.StartsWithSegments(SiteAssetPath, StringComparison.OrdinalIgnoreCase);
         return matchMediaUrlSegments;
     }
 
     private static readonly PathString ContentAssetPath = $"/{RoutingConstants.ContentAssetSegment}";
     private static readonly PathString GlobalAssetPath = $"/{RoutingConstants.GlobalAssetSegment}";
     private static readonly PathString SiteAssetPath = $"/{RoutingConstants.SiteAssetSegment}";
-    private static readonly PathString SysSiteAssetsPath = $"/{SiteDefinition.SiteAssetsName}";
 }

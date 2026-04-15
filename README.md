@@ -2,6 +2,10 @@
 
 Fork of [Baaijte.Optimizely.ImageSharp.Web](https://github.com/vnbaaij/Baaijte.Optimizely.ImageSharp.Web)
 
+### V4.0.0
+
+Package now support Optimizely CMS 13.0.0+ and .NET 10.0+.
+
 ### V3.1.0
 
 Renamed package for fork and updated ImageSharp package versions.\
@@ -41,7 +45,7 @@ Package now uses SixLabors.ImageSharp 3.0.1 and SixLabors.ImageSharp.Web 3.0.1
 - ***This package is supported in a best effort sense***
 
  ***Note*** 
- As of version 2.0.0 this package targets .NET6.0 and Optimizely.CMS.Core version 12.5.0 or higher
+ As of version 4.0.0, this package targets .NET10.0 and Optimizely.CMS.Core version 13.0.0 or higher
 
 ### Installation
   
@@ -62,7 +66,7 @@ dotnet add package Krlbr.Optimizely.ImageSharp.Web --version VERSION_NUMBER
 ### Setup and Configuration
 Once installed you will need to add the following code  to `ConfigureServices` and `Configure` in your `Startup.cs` file.
 
-This installs the the default service and options.
+This installs the default service and options.
 
 ``` c#
 public void ConfigureServices(IServiceCollection services) {

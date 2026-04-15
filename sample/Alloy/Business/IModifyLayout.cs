@@ -1,13 +1,12 @@
-﻿using AlloyTemplates.Models.ViewModels;
+using Alloy.Models.ViewModels;
 
-namespace AlloyTemplates.Business
+namespace Alloy.Business;
+
+/// <summary>
+/// Defines a method which may be invoked by PageContextActionFilter allowing controllers
+/// to modify common layout properties of the view model.
+/// </summary>
+internal interface IModifyLayout
 {
-    /// <summary>
-    /// Defines a method which may be invoked by PageContextActionFilter allowing controllers
-    /// to modify common layout properties of the view model.
-    /// </summary>
-    interface IModifyLayout
-    {
-        void ModifyLayout(LayoutModel layoutModel);
-    }
+    public void ModifyLayout(LayoutModel layoutModel);
 }

@@ -1,15 +1,12 @@
-﻿using EPiServer.DataAnnotations;
+namespace Alloy.Models;
 
-namespace AlloyTemplates.Models
+/// <summary>
+/// Attribute used for site content types to set default attribute values
+/// </summary>
+public class SiteContentType : ContentTypeAttribute
 {
-    /// <summary>
-    /// Attribute used for site content types to set default attribute values
-    /// </summary>
-    public class SiteContentType : ContentTypeAttribute
+    public SiteContentType()
     {
-        public SiteContentType()
-        {
-            GroupName = Global.GroupNames.Default;
-        }
+        GroupName = Globals.GroupNames.Default;
     }
 }

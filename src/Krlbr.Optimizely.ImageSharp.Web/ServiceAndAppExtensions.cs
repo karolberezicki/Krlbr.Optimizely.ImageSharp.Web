@@ -9,17 +9,23 @@ namespace Krlbr.Optimizely.ImageSharp.Web;
 
 public static class ServiceAndAppExtensions
 {
-    public static void AddKrlbrOptimizelyImageSharp(this IServiceCollection services)
+    extension(IServiceCollection services)
     {
-        services.AddImageSharp()
-            .ClearProviders()
-            .AddProvider<BlobImageProvider>()
-            .AddProvider<PhysicalFileSystemProvider>()
-            .SetCache<BlobImageCache>();
+        public void AddKrlbrOptimizelyImageSharp()
+        {
+            services.AddImageSharp()
+                .ClearProviders()
+                .AddProvider<BlobImageProvider>()
+                .AddProvider<PhysicalFileSystemProvider>()
+                .SetCache<BlobImageCache>();
+        }
     }
 
-    public static void UseKrlbrOptimizelyImageSharp(this IApplicationBuilder app)
+    extension(IApplicationBuilder app)
     {
-        app.UseImageSharp();
+        public void UseKrlbrOptimizelyImageSharp()
+        {
+            app.UseImageSharp();
+        }
     }
 }
